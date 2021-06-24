@@ -9,12 +9,12 @@ class StudentGradeScreen extends StatefulWidget {
 
 class _StudentGradeScreenState extends State<StudentGradeScreen> {
 
-  TextEditingController mathMarkController, literatureMarkController, englishMarkController;
+  TextEditingController? mathMarkController, literatureMarkController, englishMarkController;
   double averageMark = 0.0;
   String grade = "Chưa có thông tin";
 
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  Future<String> average_grade ;
+  Future<String>? average_grade ;
 
   @override
   void initState() {
@@ -35,9 +35,9 @@ class _StudentGradeScreenState extends State<StudentGradeScreen> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    mathMarkController.dispose();
-    literatureMarkController.dispose();
-    englishMarkController.dispose();
+    mathMarkController!.dispose();
+    literatureMarkController!.dispose();
+    englishMarkController!.dispose();
 
   }
   @override
@@ -70,10 +70,10 @@ class _StudentGradeScreenState extends State<StudentGradeScreen> {
 
                       setState(() {
                         averageMark = getAverageMark(
-                            mathMark: double.parse(mathMarkController.text),
-                            literatureMark: double.parse(literatureMarkController.text),
-                            englishMark: double.parse(englishMarkController.text));
-                        grade = getGrade(averageMark);
+                            mathMark: double.parse(mathMarkController!.text),
+                            literatureMark: double.parse(literatureMarkController!.text),
+                            englishMark: double.parse(englishMarkController!.text));
+                        grade = getGrade(averageMark)!;
 
                       });
 
@@ -85,7 +85,7 @@ class _StudentGradeScreenState extends State<StudentGradeScreen> {
 
 
                 resultWidget(averageMark: averageMark, grade: grade),
-                viewOldResult(average_grade)
+                viewOldResult(average_grade!)
               ],
             )
         ),
@@ -93,20 +93,20 @@ class _StudentGradeScreenState extends State<StudentGradeScreen> {
     );
   }
 
-  double getAverageMark({ @required double mathMark, @required double literatureMark , @required double englishMark}){
-    return (mathMark + literatureMark + englishMark) / 3;
+  double getAverageMark({ @required double? mathMark, @required double? literatureMark , @required double? englishMark}){
+    return (mathMark! + literatureMark! + englishMark!) / 3;
   }
 
-  String getGrade(double avarageMark)
+  String? getGrade(double avarageMark)
   {
     if(avarageMark < 5) return BAD_GRADE;
     else if (avarageMark < 8.5) return NORMAL_GRADE;
     else if(avarageMark >= 8.5)  return EXCELLENT_GRADE;
-    else if ((avarageMark < 0 ) ||(avarageMark >10.0))
+    else if ((avarageMark < 0 ) ||(avarageMark! >10.0))
       return NOT_NORMAL;
   }
 
-   resultWidget({@required double averageMark , @required String grade}){
+   resultWidget({@required double? averageMark , @required String? grade}){
     return Card(
       child: Container(
         padding: EdgeInsets.only(left: 10, right: 10),
@@ -125,14 +125,14 @@ class _StudentGradeScreenState extends State<StudentGradeScreen> {
 
   }
 
-  saveInformation({@required double averageMark, @required String grade}) async {
+  saveInformation({@required double? averageMark, @required String? grade}) async {
     final prefs = await _prefs;
-    await prefs.setString("average_grade", AVERAGE_MARK + averageMark.toString() + "," + GRADE +":" +  grade );
+    await prefs.setString("average_grade", AVERAGE_MARK + averageMark.toString() + "," + GRADE +":" +  grade! );
   }
 
-  getInformation(){
-    average_grade = _prefs.then((SharedPreferences prefs){
-      return (prefs.getString("average_grade"));
+  Future<String>? getInformation(){
+    average_grade = _prefs.then((SharedPreferences? prefs){
+      return (prefs!.getString("average_grade")!);
     });
 
   }
@@ -146,15 +146,15 @@ class _StudentGradeScreenState extends State<StudentGradeScreen> {
           children: [
             Text(PREVIOUS_RESULT),
             Center(
-              child: FutureBuilder(
+              child: FutureBuilder<String>(
                   future: average_grade,
                   builder: (context, snapshot)
                   {
                     if((snapshot.hasError)||(!snapshot.hasData))
                       //return CircularProgressIndicator();
                       return Text(NOT_AVAILABLE);
-                    String result = snapshot.data;
-                    return Text(result);
+                    String? result = snapshot.data;
+                    return Text(result!);
                   }),
             ),
           ],

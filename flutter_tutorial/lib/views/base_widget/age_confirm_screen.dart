@@ -7,8 +7,8 @@ class AgeConfirmScreen extends StatefulWidget {
 }
 
 class _AgeConfirmScreenState extends State<AgeConfirmScreen> {
-  TextEditingController userNameController ;
-  TextEditingController birthYearController;
+  TextEditingController? userNameController ;
+  TextEditingController? birthYearController;
 
   String username = "Chưa cập nhật";
   String age = "Chưa cập nhật";
@@ -30,8 +30,8 @@ class _AgeConfirmScreenState extends State<AgeConfirmScreen> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    userNameController.dispose();
-    birthYearController.dispose();
+    userNameController!.dispose();
+    birthYearController!.dispose();
     print("Kết thúc màn hình");
   }
 
@@ -52,9 +52,9 @@ class _AgeConfirmScreenState extends State<AgeConfirmScreen> {
               customButton(
                   onPressed: (){
                     setState(() {
-                      username = userNameController.text;
+                      username = userNameController!.text;
                       age =
-                          (2021 - int.parse(birthYearController.text)).toString();
+                          (2021 - int.parse(birthYearController!.text)).toString();
                     });
 
                   },
