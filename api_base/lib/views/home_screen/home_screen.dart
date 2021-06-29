@@ -1,4 +1,5 @@
 import 'package:api_base/resources/strings.dart';
+import 'package:api_base/views/other_video_list/other_video_list.dart';
 import 'package:api_base/views/video_list/video_list_screen.dart';
 import 'package:flutter/material.dart';
 class HomeScreen extends StatelessWidget {

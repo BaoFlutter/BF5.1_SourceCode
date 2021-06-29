@@ -6,7 +6,7 @@ class UserInformationModel with ChangeNotifier{
   String phoneNumber = "Chưa cập nhật" ;
   String iconUrl = "";
 
-
+  
   updateInformation({userName, phoneNumber})
   {
     this.userName = userName;

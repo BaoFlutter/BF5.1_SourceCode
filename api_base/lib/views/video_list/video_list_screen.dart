@@ -1,9 +1,13 @@
 
 import 'package:api_base/data_sources/api_services.dart';
+import 'package:api_base/providers/video_list_model.dart';
 import 'package:api_base/resources/strings.dart';
 import 'package:api_base/views/detail_video/detail_video.dart';
+import 'package:api_base/views/other_video_list/other_video_list.dart';
 import 'package:api_base/views/video_list/video_model.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 class VideoListScreen extends StatelessWidget {
 
   @override
@@ -12,6 +16,11 @@ class VideoListScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(VIDEO_LIST),
         centerTitle: true,
+        actions: [
+          IconButton(onPressed: (){
+            Get.to(OtherVideoListScreen());
+          }, icon: Icon(Icons.add_to_photos))
+        ],
       ),
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -24,6 +33,9 @@ class VideoListScreen extends StatelessWidget {
                   child: CircularProgressIndicator(),
                 );
               List<VideoModel> videoList = snapshot.data!;
+
+              context.read<VideoListModel>().videoList = videoList;
+
               print("Độ dài" + videoList.length.toString());
               return GridView.builder(
                   gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
